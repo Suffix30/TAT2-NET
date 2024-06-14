@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: TAT2_backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "5000:5000"
+    networks:
+      - tat2_network
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: TAT2_frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+    networks:
+      - tat2_network
+
+  modules:
+    build:
+      context: ./modules
+    container_name: TAT2_modules
+    volumes:
+      - ./modules:/app
+    command: ["bash"]
+    networks:
+      - tat2_network
+
+networks:
+  tat2_network:
+    driver: bridge
