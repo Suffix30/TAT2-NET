@@ -1,45 +1,55 @@
 # TAT2
-an automated immutable framework for CTFs and Bug Bountys
+An automated immutable framework for CTFs and Bug Bounties
 
-## goal is for anybody to deploy the framework with the modules of their choice and they will deploy succesfully
+## Goal
+The goal is for anybody to deploy the framework with the modules of their choice, and they will deploy successfully without dependencies preventing immutability.
 
-### dependencies preventing immutability
+## Features
+- Automated module installation with version control.
+- Standardized input/output format across modules.
+- Modular architecture allowing users to select specific tools to prevent bloatware.
+- Environment isolation to ensure consistent deployment using Docker.
 
-for modules they should be a directory with main code as well as requireed imports and specified version numbers
+## Module Requirements
+- Each module should be a directory containing the main code, required imports, and specified version numbers.
+- Modules must account for dependencies such as protocol requirements (e.g., http/s) for inputs.
+- Modules should mark their tools' executing language and handle required library installations.
+- Modules must produce standardized output (e.g., text files, database entries) and sanitize inputs for consistency.
+- Modules must include a Dockerfile if they depend on non-Python languages or require compilation (e.g., Go).
 
-module output (txt file currently, possibly database tags). Biggest current issue is modules have to be loaded in a specified order because they are retreiving input from hard-coded input file.
+## Workflow
+1. Sub-domain Enumeration
+2. Port Scanning
+3. Web Crawling
+4. WHOIS Lookup
+5. DNS Enumeration
+6. Vulnerability Scanning
+7. Exploitation
+8. Information Gathering
+9. Reporting
+10. Automation and Scripting
+11. Utility
 
-module dependency for inputs (eg. httprobe module requires http/s protocol to be added to url, should be accounted for that not all subdomain finders will add those)
-
-Modules will also need to mark their tools executing language, all modules are writen in python but the tool might be in GO, need to be compiled, etc. 
-
-module groups and work-flow requirements (sub-domain enumerators, fuzzers, etc.)
-
-possibly including permanant modules such as sub-domain enumeration, but with replace and add capbility to account for tool preference
-
-required language librarys like go, rust, etc. need to all be included in a module creation template, which will have required variables to ensure compatability
-
-need to create a standard module output sanitzation script so all modules can expect the same exact input formats
-
-noted versioning for tools, eg. hakrawler 2.7.1 runs on TAT2 V1 so when V1 is deployed it will only use tool versions previously validated
-
-
-
-
-
-example of required template for go-lang tools: 
-
-#####REQUIRED FOR MODULES######
+## Example Module Template (Go-lang)
+```python
+##### REQUIRED FOR MODULES #####
 import os
 import sys
-#domain = input("insert SINGLE domain you would like to run hakrawler scanner on: ")
-cwd = os.getcwd() 
+
+# domain = input("Insert SINGLE domain you would like to run hakrawler scanner on: ")
+cwd = os.getcwd()
 os.environ['PATH'] = f'{cwd}/go/bin:' + os.environ['PATH']
 os.environ['GOPATH'] = cwd
-#####REQUIRED FOR MODULES######
+##### REQUIRED FOR MODULES #####
+```
 
-## other ideas
-having framework on deployment allow selection of tools from prompt so once executed the framework will reachout to the repo and retreieve the modules selected to prevent bloatware from unused modules
+## Installation
+1. Clone the repository.
+2. Run `tat2_setup.sh` to set up the project structure.
+3. Use `docker-compose` to start the backend, frontend, and selected modules.
+4. Select tools during deployment to avoid installing unused modules.
 
-
-
+## Usage
+- To add a module, place it in the appropriate directory under `modules/`.
+- Ensure each module follows the template and handles its own dependencies.
+- Use the provided CI/CD pipeline to automate testing and deployment.
